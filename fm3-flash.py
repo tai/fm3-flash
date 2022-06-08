@@ -380,7 +380,7 @@ if __name__ == '__main__':
   ap.print_help = help
   ap.add_argument('-D', '--debug', nargs='?', default='WARN')
   ap.add_argument('-S', '--skip', action='store_true', default=False)
-  ap.add_argument('-L', '--libdir', action='append', default=os.getenv('FM3FLASHDIR'))
+  ap.add_argument('-L', '--libdir', action='append', default=[])
   ap.add_argument('-2', '--stage2', default='m_flash.9a132l')
   ap.add_argument('-b', '--blocksize', type=to_int, default=512)
   ap.add_argument('-f', '--flashsize', type=to_int, default=128*1024)
@@ -391,6 +391,9 @@ if __name__ == '__main__':
 
   opt = ap.parse_args()
   if not opt.args: help()
+
+  dir = os.getenv('FM3FLASHDIR')
+  if dir: opt.libdir += [dir]
 
   logging.basicConfig(level=eval('logging.' + opt.debug))
 
